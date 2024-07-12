@@ -1,0 +1,27 @@
+.corbeille{
+    display: flex;
+    text-align: left;
+    justify-content: end;
+}
+.action{
+    display: flex;
+    align-items: center;
+}
+
+#messages {
+    text-align: center;
+    margin-bottom: 20px;
+    color: green;
+    display: none;
+}
+
+
+.approved {
+    border: dashed green;
+}
+.Napproved{
+    border: dashed red;
+}
+.row{
+    color: #fff;
+}
