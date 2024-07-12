@@ -3,6 +3,11 @@
 // Tableau pour stocker les idées
 let ideas = [];
 
+// Charger les idées depuis localStorage s'il y en a
+if (localStorage.getItem('ideas')) {
+    ideas = JSON.parse(localStorage.getItem('ideas'));
+    updateIdeasList();
+}
 // Sélectionner les éléments du DOM
 const form = document.getElementById('ideaForm');
 const titleInput = document.getElementById('title');
@@ -38,6 +43,9 @@ form.addEventListener('submit', function(event) {
     // le premier variable c'est celle du tableau vide en dessus et le deuxieme c'est le stock des information de l'utilisateur
     ideas.push(idea);
 
+    // Sauvegarder dans localStorage
+    localStorage.setItem('ideas', JSON.stringify(ideas));
+
     // Réinitialiser le formulaire
     form.reset();
 
@@ -67,7 +75,7 @@ function updateIdeasList() {
     ideas.forEach(idea => {
         const div = document.createElement('div');
         div.className = idea.approved ? 'approved' : 'Napproved';
-        div.innerHTML = `
+        div.innerHTML  += `
           <div class="col">
     <div class="card h-100">
       <div class="card-body">
@@ -83,7 +91,7 @@ function updateIdeasList() {
     </div>
   </div>
         `;
-        ideasList.appendChild(div);
+        ideasList.appendChild(div)
     });
 }
 
@@ -91,6 +99,7 @@ function updateIdeasList() {
 // Fonction pour supprimer une idée
 function deleteIdea(id) {
     ideas = ideas.filter(idea => idea.id !== id);
+    localStorage.setItem('ideas', JSON.stringify(ideas));
     updateIdeasList();
 }
 
@@ -103,6 +112,7 @@ function approveIdea(id) {
         }
         return idea;
     });
+    localStorage.setItem('ideas', JSON.stringify(ideas));
     updateIdeasList();
 }
 
@@ -116,5 +126,6 @@ function disapproveIdea(id) {
         }
         return idea;
     });
+    localStorage.setItem('ideas', JSON.stringify(ideas));
     updateIdeasList();
 }
