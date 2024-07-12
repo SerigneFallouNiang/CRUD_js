@@ -14,3 +14,11 @@
     color: green;
     display: none;
 }
+
+
+.approved {
+    border: dashed green;
+}
+.Napproved{
+    border: dashed red;
+}

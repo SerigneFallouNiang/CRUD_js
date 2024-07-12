@@ -66,6 +66,7 @@ function updateIdeasList() {
 
     ideas.forEach(idea => {
         const div = document.createElement('div');
+        div.className = idea.approved ? 'approved' : 'Napproved';
         div.innerHTML = `
           <div class="col">
     <div class="card h-100">
@@ -84,4 +85,36 @@ function updateIdeasList() {
         `;
         ideasList.appendChild(div);
     });
+}
+
+
+// Fonction pour supprimer une idée
+function deleteIdea(id) {
+    ideas = ideas.filter(idea => idea.id !== id);
+    updateIdeasList();
+}
+
+
+// Fonction pour approuver une idée
+function approveIdea(id) {
+    ideas = ideas.map(idea => {
+        if (idea.id === id) {
+            idea.approved = true;
+        }
+        return idea;
+    });
+    updateIdeasList();
+}
+
+
+
+// Fonction pour désapprouver une idée
+function disapproveIdea(id) {
+    ideas = ideas.map(idea => {
+        if (idea.id === id) {
+            idea.approved = false;
+        }
+        return idea;
+    });
+    updateIdeasList();
 }
