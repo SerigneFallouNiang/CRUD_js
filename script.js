@@ -19,6 +19,9 @@ const categoryInput = document.getElementById('category');
 const descriptionInput = document.getElementById('description');
 const messagesDiv = document.getElementById('messages');
 const ideasList = document.getElementById('ideasList');
+const titleError = document.getElementById('titleError');
+const categoryError = document.getElementById('categoryError');
+const descriptionError = document.getElementById('descriptionError');
 
 // Ajouter un écouteur d'événement pour la soumission du formulaire
 form.addEventListener('submit', function(event) {
@@ -29,8 +32,34 @@ form.addEventListener('submit', function(event) {
     const category = categoryInput.value;
     const description = descriptionInput.value.trim();
 
-    if (title === '' || description === '') {
-        showMessage('Tous les champs sont obligatoires', 'error');
+    let isValid = true;
+
+    // Valider le titre
+    if (!validateTitle(title)) {
+        titleError.textContent = 'Le libellé doit contenir entre 3 et 50 caractères.';
+        isValid = false;
+    } else {
+        titleError.textContent = '';
+    }
+
+    // Valider la catégorie
+    if (!validateCategory(category)) {
+        categoryError.textContent = 'Veuillez sélectionner une catégorie valide.';
+        isValid = false;
+    } else {
+        categoryError.textContent = '';
+    }
+
+    // Valider la description
+    if (!validateDescription(description)) {
+        descriptionError.textContent = 'La description doit contenir entre 10 et 255 caractères.';
+        isValid = false;
+    } else {
+        descriptionError.textContent = '';
+    }
+
+    // Si le formulaire n'est pas valide, on arrête la soumission
+    if (!isValid) {
         return;
     }
 
@@ -124,4 +153,20 @@ function disapproveIdea(id) {
     });
     localStorage.setItem('ideas', JSON.stringify(ideas));
     updateIdeasList();
+}
+
+// Fonctions de validation avec regex
+function validateTitle(title) {
+    const regex = /^[A-Za-z0-9\s]{3,50}$/;
+    return regex.test(title);
+}
+
+function validateCategory(category) {
+    const validCategories = ["Politique", "Sport", "Santé", "Education"];
+    return validCategories.includes(category);
+}
+
+function validateDescription(description) {
+    const regex = /^.{10,255}$/;
+    return regex.test(description);
 }
