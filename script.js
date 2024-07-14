@@ -147,25 +147,28 @@ function showMessage(message, type) {
     }, 2000);
 }
 
-// Fonction pour afficher la liste des idées
-function updateIdeasList() {
+ // Ajoutez ce script pour améliorer l'affichage des idées
+ function updateIdeasList() {
     ideasList.innerHTML = '';
-
     ideas.forEach(idea => {
         const div = document.createElement('div');
-        div.className = idea.approved ? 'approved' : 'Napproved';
+        div.className = 'col';
         div.innerHTML = `
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">${idea.title}</h5>
-                        <h6>${idea.category}</h6>
-                        <p class="card-text">${idea.description}</p>
-                        <div class="action d-flex">
-                            <button type="button" class="btn btn-success" onclick="approveIdea(${idea.id})">Approuver</button>
-                            <button type="button" class="btn btn-danger" onclick="disapproveIdea(${idea.id})">Désapprouver</button>
-                            <i class="corbeille fa-solid fa-trash fa-2xl ms-auto" style="color: #c21e1e;" onclick="deleteIdea(${idea.id})"></i>
+            <div class="card h-100 ${idea.approved ? 'border-success' : 'border-warning'}">
+                <div class="card-body">
+                    <h5 class="card-title">${idea.title}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">${idea.category}</h6>
+                    <p class="card-text">${idea.description}</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <button class="btn btn-sm btn-outline-success me-2" onclick="approveIdea(${idea.id})">Approuver</button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="disapproveIdea(${idea.id})">Désapprouver</button>
                         </div>
+                        <button class="btn btn-sm btn-link text-danger" onclick="deleteIdea(${idea.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
                 </div>
             </div>
