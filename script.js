@@ -15,13 +15,21 @@ let ideas = [];
 // Sélectionner les éléments du DOM
 const form = document.getElementById('ideaForm');
 const titleInput = document.getElementById('title');
+const titleSuccess = document.getElementById('titleSuccess');
 const categoryInput = document.getElementById('category');
+const categorySuccess = document.getElementById('categorySuccess');
 const descriptionInput = document.getElementById('description');
+const descriptionSuccess = document.getElementById('descriptionSuccess');
 const messagesDiv = document.getElementById('messages');
 const ideasList = document.getElementById('ideasList');
 const titleError = document.getElementById('titleError');
 const categoryError = document.getElementById('categoryError');
 const descriptionError = document.getElementById('descriptionError');
+
+// Écouteurs d'événements pour la validation automatique
+titleInput.addEventListener('input', validateTitleInput);
+categoryInput.addEventListener('change', validateCategoryInput);
+descriptionInput.addEventListener('input', validateDescriptionInput);
 
 // Ajouter un écouteur d'événement pour la soumission du formulaire
 form.addEventListener('submit', function(event) {
@@ -37,25 +45,31 @@ form.addEventListener('submit', function(event) {
     // Valider le titre
     if (!validateTitle(title)) {
         titleError.textContent = 'Le libellé doit contenir entre 3 et 50 caractères.';
+        titleSuccess.textContent = '';
         isValid = false;
     } else {
         titleError.textContent = '';
+        titleSuccess.textContent = 'Libellé valide.';
     }
 
     // Valider la catégorie
     if (!validateCategory(category)) {
         categoryError.textContent = 'Veuillez sélectionner une catégorie valide.';
+        categorySuccess.textContent = '';
         isValid = false;
     } else {
         categoryError.textContent = '';
+        categorySuccess.textContent = 'Catégorie valide.';
     }
 
     // Valider la description
     if (!validateDescription(description)) {
         descriptionError.textContent = 'La description doit contenir entre 10 et 255 caractères.';
+        descriptionSuccess.textContent = '';
         isValid = false;
     } else {
         descriptionError.textContent = '';
+        descriptionSuccess.textContent = 'Description valide.';
     }
 
     // Si le formulaire n'est pas valide, on arrête la soumission
@@ -87,6 +101,42 @@ form.addEventListener('submit', function(event) {
     updateIdeasList();
 });
 
+// Fonction de validation automatique pour le titre
+function validateTitleInput() {
+    const title = titleInput.value.trim();
+    if (!validateTitle(title)) {
+        titleError.textContent = 'Le libellé doit contenir entre 3 et 50 caractères.';
+        titleSuccess.textContent = '';
+    } else {
+        titleError.textContent = '';
+        titleSuccess.textContent = 'Libellé valide.';
+    }
+}
+
+// Fonction de validation automatique pour la catégorie
+function validateCategoryInput() {
+    const category = categoryInput.value;
+    if (!validateCategory(category)) {
+        categoryError.textContent = 'Veuillez sélectionner une catégorie valide.';
+        categorySuccess.textContent = '';
+    } else {
+        categoryError.textContent = '';
+        categorySuccess.textContent = 'Catégorie valide.';
+    }
+}
+
+// Fonction de validation automatique pour la description
+function validateDescriptionInput() {
+    const description = descriptionInput.value.trim();
+    if (!validateDescription(description)) {
+        descriptionError.textContent = 'La description doit contenir entre 10 et 255 caractères.';
+        descriptionSuccess.textContent = '';
+    } else {
+        descriptionError.textContent = '';
+        descriptionSuccess.textContent = 'Description valide.';
+    }
+}
+
 // Fonction pour afficher un message
 function showMessage(message, type) {
     messagesDiv.textContent = message;
@@ -97,7 +147,7 @@ function showMessage(message, type) {
     }, 2000);
 }
 
-// Fonction pour mettre à jour la liste des idées
+// Fonction pour afficher la liste des idées
 function updateIdeasList() {
     ideasList.innerHTML = '';
 
