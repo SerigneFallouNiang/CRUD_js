@@ -147,7 +147,7 @@ function showMessage(message, type) {
     }, 2000);
 }
 
- // Ajoutez ce script pour améliorer l'affichage des idées
+ //  l'affichage des idées
  function updateIdeasList() {
     ideasList.innerHTML = '';
     ideas.forEach(idea => {
